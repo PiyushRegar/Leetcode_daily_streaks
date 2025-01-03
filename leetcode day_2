@@ -1,0 +1,30 @@
+// Problem: Vowel Strings
+// Link: (Add the LeetCode link here)
+
+
+class Solution {
+public:
+    std::vector<int> vowelStrings(std::vector<std::string>& words, std::vector<std::vector<int>>& queries) {
+        std::unordered_set<char> vowels = {'a', 'e', 'i', 'o', 'u'};
+        std::vector<int> nums;
+
+        // Collect indices of words that start and end with vowels
+        for (int i = 0; i < words.size(); ++i) {
+            char a = words[i][0], b = words[i].back();
+            if (vowels.count(a) && vowels.count(b)) {
+                nums.push_back(i);
+            }
+        }
+
+        std::vector<int> ans;
+        for (auto& q : queries) {
+            int l = q[0], r = q[1];
+            
+            // Calculate the count of indices in the range [l, r] using lower_bound and upper_bound
+            int cnt = std::upper_bound(nums.begin(), nums.end(), r) - std::lower_bound(nums.begin(), nums.end(), l);
+            ans.push_back(cnt);
+        }
+
+        return ans;
+    }
+};
