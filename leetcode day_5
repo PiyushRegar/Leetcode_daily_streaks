@@ -1,0 +1,31 @@
+/*
+ * LeetCode Problem: Shifting Letters
+ * Day 5 LeetCode Streak Challenge
+ */
+
+//Code -> 
+
+
+class Solution {
+public:
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        
+        int n = s.size();
+        vector<int> delta(n+1 , 0);
+        for(const auto& shift : shifts){
+            int start = shift[0] ,end = shift[1] , direction = shift[2];
+            int change = (direction == 1) ? 1 : -1;
+            delta[start] += change;
+            if(end + 1 < n){
+                delta[end + 1] -= change;
+            }
+        }
+        int cumulativeshift = 0;
+        for(int i = 0; i < n; i++){
+            cumulativeshift += delta[i];
+            int shiftamount = (cumulativeshift % 26 + 26) % 26;
+            s[i] = 'a' + (s[i] - 'a' + shiftamount) % 26;
+        }
+        return s ;
+    }
+};
